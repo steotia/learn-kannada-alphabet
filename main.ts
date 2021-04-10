@@ -30,6 +30,21 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 info.onCountdownEnd(function () {
     game.over(true)
 })
+function defineAlphabet () {
+    a = assets.image`ka`
+    aa = assets.image`kaa`
+    e = assets.image`ke`
+    ee = assets.image`kee`
+    u = assets.image`ku`
+    uu = assets.image`kuu`
+    ru = assets.image`kru`
+    e1 = assets.image`ke1`
+    e2 = assets.image`ke2`
+    e3 = assets.image`ke3`
+    o1 = assets.image`ko1`
+    o2 = assets.image`ko2`
+    o3 = assets.image`ko3`
+}
 function initGame () {
     tiles.setTilemap(tilemap`level2`)
     info.setScore(0)
@@ -55,13 +70,7 @@ function check_answer (button: number) {
     scene.cameraShake(4, 100)
 }
 function initImages () {
-    a = assets.image`ka`
-    aa = assets.image`kaa`
-    e = assets.image`ke`
-    ee = assets.image`kee`
-    u = assets.image`ku`
-    uu = assets.image`kuu`
-    ru = assets.image`kru`
+    defineAlphabet()
     questions = [
     a,
     aa,
@@ -69,7 +78,13 @@ function initImages () {
     ee,
     u,
     uu,
-    ru
+    ru,
+    e1,
+    e2,
+    e3,
+    o1,
+    o2,
+    o3
     ]
     answers = [
     assets.image`ena`,
@@ -78,15 +93,21 @@ function initImages () {
     assets.image`enee`,
     assets.image`enu`,
     assets.image`enuu`,
-    assets.image`enru`
+    assets.image`enru`,
+    assets.image`ene1`,
+    assets.image`ene2`,
+    assets.image`ene3`,
+    assets.image`eno1`,
+    assets.image`eno2`,
+    assets.image`eno3`
     ]
 }
 function askQuestion () {
     answer_position = randint(0, 1)
-    random_number = randint(0, 3)
-    other_random_number = randint(0, 3)
+    random_number = randint(0, 12)
+    other_random_number = randint(0, 12)
     while (random_number == other_random_number) {
-        random_number = randint(0, 3)
+        random_number = randint(0, 12)
     }
     mySprite2 = sprites.create(questions[random_number], SpriteKind.UI)
     mySprite2.setPosition(80, 30)
@@ -105,6 +126,16 @@ let other_random_number = 0
 let random_number = 0
 let answers: Image[] = []
 let questions: Image[] = []
+let wrong_answer: Sprite = null
+let answer: Sprite = null
+let mySprite2: Sprite = null
+let answer_position = 0
+let o3: Image = null
+let o2: Image = null
+let o1: Image = null
+let e3: Image = null
+let e2: Image = null
+let e1: Image = null
 let ru: Image = null
 let uu: Image = null
 let u: Image = null
@@ -112,10 +143,6 @@ let ee: Image = null
 let e: Image = null
 let aa: Image = null
 let a: Image = null
-let wrong_answer: Sprite = null
-let answer: Sprite = null
-let mySprite2: Sprite = null
-let answer_position = 0
 let game_started = false
 let question_asked = false
 IntroduceGame()

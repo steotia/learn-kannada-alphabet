@@ -48,7 +48,6 @@ function defineAlphabet () {
 function initGame () {
     tiles.setTilemap(tilemap`level2`)
     info.setScore(0)
-    info.setLife(3)
     initImages()
     info.startCountdown(60)
     game_started = true
@@ -75,7 +74,6 @@ function check_answer (button: number) {
         info.changeScoreBy(1)
     } else {
         showResult(false)
-        info.changeLifeBy(-1)
     }
     question_asked = false
     mySprite2.destroy()

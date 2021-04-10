@@ -53,20 +53,34 @@ function initGame () {
     info.startCountdown(60)
     game_started = true
 }
+function showResult (correct: boolean) {
+    if (correct) {
+        result = sprites.create(assets.image`correct`, SpriteKind.UI)
+        result.setPosition(80, 30)
+        music.playTone(988, music.beat(BeatFraction.Half))
+    } else {
+        result = sprites.create(assets.image`incorrect`, SpriteKind.UI)
+        result.setPosition(80, 30)
+        music.playTone(220, music.beat(BeatFraction.Half))
+    }
+    pause(200)
+    result.destroy()
+}
 info.onLifeZero(function () {
     game.over(false)
 })
 function check_answer (button: number) {
     if (button == answer_position) {
+        showResult(true)
         info.changeScoreBy(1)
     } else {
+        showResult(false)
         info.changeLifeBy(-1)
     }
     question_asked = false
     mySprite2.destroy()
     answer.destroy()
     wrong_answer.destroy()
-    music.thump.play()
     scene.cameraShake(4, 100)
 }
 function initImages () {
@@ -130,6 +144,7 @@ let wrong_answer: Sprite = null
 let answer: Sprite = null
 let mySprite2: Sprite = null
 let answer_position = 0
+let result: Sprite = null
 let o3: Image = null
 let o2: Image = null
 let o1: Image = null

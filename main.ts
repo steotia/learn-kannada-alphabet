@@ -49,8 +49,8 @@ function initGame () {
     tiles.setTilemap(tilemap`level2`)
     info.setScore(0)
     initImages()
-    info.startCountdown(60)
     game_started = true
+    resetScoreBar()
 }
 function showResult (correct: boolean) {
     if (correct) {
@@ -72,9 +72,14 @@ function check_answer (button: number) {
     if (button == answer_position) {
         showResult(true)
         info.changeScoreBy(1)
+        last_incorrect = false
     } else {
+        info.changeScoreBy(0)
+        last_incorrect = true
         showResult(false)
     }
+    percent_score = info.score() / question_number * 100
+    updateScoreBar()
     question_asked = false
     mySprite2.destroy()
     answer.destroy()
@@ -114,10 +119,25 @@ function initImages () {
     assets.image`eno3`
     ]
 }
+function updateScoreBar () {
+    progress = Math.round(percent_score / 5)
+    for (let index = 0; index <= 20; index++) {
+        dot = sprites.create(img`
+            . . . . 
+            . 7 7 . 
+            . 7 7 . 
+            . . . . 
+            `, SpriteKind.UI)
+        dot.setPosition(5 + index, 4)
+    }
+}
 function askQuestion () {
+    question_number = question_number + 1
+    if (!(last_incorrect)) {
+        random_number = randint(0, 12)
+        other_random_number = randint(0, 12)
+    }
     answer_position = randint(0, 1)
-    random_number = randint(0, 12)
-    other_random_number = randint(0, 12)
     while (random_number == other_random_number) {
         random_number = randint(0, 12)
     }
@@ -134,13 +154,23 @@ function askQuestion () {
     }
     question_asked = true
 }
+function resetScoreBar () {
+    scorebar = sprites.create(assets.image`scorebar00`, SpriteKind.UI)
+    scorebar.setPosition(24, 4)
+}
+let scorebar: Sprite = null
 let other_random_number = 0
 let random_number = 0
+let dot: Sprite = null
+let progress = 0
 let answers: Image[] = []
 let questions: Image[] = []
 let wrong_answer: Sprite = null
 let answer: Sprite = null
 let mySprite2: Sprite = null
+let question_number = 0
+let percent_score = 0
+let last_incorrect = false
 let answer_position = 0
 let result: Sprite = null
 let o3: Image = null

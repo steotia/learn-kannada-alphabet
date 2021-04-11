@@ -78,13 +78,11 @@ function check_answer (button: number) {
         last_incorrect = true
         showResult(false)
     }
-    percent_score = info.score() / question_number * 100
     updateScoreBar()
     question_asked = false
     mySprite2.destroy()
     answer.destroy()
     wrong_answer.destroy()
-    scene.cameraShake(4, 100)
 }
 function initImages () {
     defineAlphabet()
@@ -120,16 +118,15 @@ function initImages () {
     ]
 }
 function updateScoreBar () {
+    percent_score = info.score() / question_number * 100
     progress = Math.round(percent_score / 5)
-    for (let index = 0; index <= 20; index++) {
-        dot = sprites.create(img`
-            . . . . 
-            . 7 7 . 
-            . 7 7 . 
-            . . . . 
-            `, SpriteKind.UI)
-        dot.setPosition(5 + index, 4)
-    }
+    console.logValue("question_number", question_number)
+    console.logValue("score", info.score())
+    console.logValue("percent_score", percent_score)
+    console.logValue("progress", progress)
+    scorebar.destroy()
+    scorebar = sprites.create(scorebars[progress], SpriteKind.UI)
+    scorebar.setPosition(24, 4)
 }
 function askQuestion () {
     question_number = question_number + 1
@@ -155,21 +152,44 @@ function askQuestion () {
     question_asked = true
 }
 function resetScoreBar () {
-    scorebar = sprites.create(assets.image`scorebar00`, SpriteKind.UI)
+    scorebars = [
+    assets.image`scorebar00`,
+    assets.image`scorebar05`,
+    assets.image`scorebar10`,
+    assets.image`scorebar15`,
+    assets.image`scorebar20`,
+    assets.image`scorebar25`,
+    assets.image`scorebar30`,
+    assets.image`scorebar35`,
+    assets.image`scorebar40`,
+    assets.image`scorebar45`,
+    assets.image`scorebar50`,
+    assets.image`scorebar55`,
+    assets.image`scorebar60`,
+    assets.image`scorebar65`,
+    assets.image`scorebar70`,
+    assets.image`scorebar75`,
+    assets.image`scorebar80`,
+    assets.image`scorebar85`,
+    assets.image`scorebar90`,
+    assets.image`scorebar95`,
+    assets.image`scorebar100`
+    ]
+    scorebar = sprites.create(scorebars[0], SpriteKind.UI)
     scorebar.setPosition(24, 4)
 }
-let scorebar: Sprite = null
 let other_random_number = 0
 let random_number = 0
-let dot: Sprite = null
+let scorebars: Image[] = []
+let scorebar: Sprite = null
 let progress = 0
+let question_number = 0
+let percent_score = 0
 let answers: Image[] = []
 let questions: Image[] = []
 let wrong_answer: Sprite = null
 let answer: Sprite = null
 let mySprite2: Sprite = null
-let question_number = 0
-let percent_score = 0
 let last_incorrect = false
 let answer_position = 0
 let result: Sprite = null

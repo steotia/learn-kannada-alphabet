@@ -129,6 +129,9 @@ function updateScoreBar () {
     scorebar.setPosition(24, 4)
 }
 function askQuestion () {
+    if (question_number == 20) {
+        game.over(false)
+    }
     question_number = question_number + 1
     if (!(last_incorrect)) {
         random_number = randint(0, 12)
